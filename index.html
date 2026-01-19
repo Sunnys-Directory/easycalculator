@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All-In-One Calculator Hub</title>
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --primary: #6366f1; /* Indigo */
+            --primary-dark: #4f46e5;
+            --bg: #f3f4f6;
+            --white: #ffffff;
+            --text: #1f2937;
+            --gray: #6b7280;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background-color: var(--white);
+            padding: 25px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100%;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 40px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            text-align: left;
+            padding: 15px;
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: var(--text);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 500;
+            width: 100%;
+        }
+
+        .nav-btn:hover { background-color: #e0e7ff; color: var(--primary); }
+        .nav-btn.active { background-color: var(--primary); color: white; }
+
+        /* MAIN CONTENT */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        /* CALCULATOR SECTIONS */
+        .calc-section {
+            display: none;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .calc-section.active-section { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 { margin-bottom: 10px; color: var(--text); }
+        p.desc { color: var(--gray); margin-bottom: 25px; font-size: 14px; }
+
+        /* FORMS */
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            background-color: white;
+        }
+        input:focus, select:focus { border-color: var(--primary); }
+
+        /* FLEX ROW for Converter and Currency */
+        .flex-row { display: flex; gap: 10px; align-items: flex-end; }
+        .flex-col { flex: 1; }
+
+        .btn-calc {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        .btn-calc:hover { background-color: var(--primary-dark); }
+
+        .btn-swap {
+            background-color: #e0e7ff;
+            color: var(--primary);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-bottom: 5px; /* Alignment fix */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-swap:hover { background-color: #c7d2fe; }
+
+        /* RESULTS AREA */
+        .result-box {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8fafc;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary);
+            display: none;
+        }
+        .result-text { font-size: 18px; margin-bottom: 10px; }
+        .result-highlight { font-weight: bold; color: var(--primary); font-size: 22px; display: block; margin-top: 5px; }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar { width: 100%; position: relative; height: auto; flex-direction: row; overflow-x: auto; padding: 10px; margin-bottom: 20px;}
+            .main-content { margin-left: 0; padding: 20px; }
+            .nav-btn { font-size: 14px; padding: 10px; white-space: nowrap; margin-right: 10px; }
+            .flex-row { flex-direction: column; align-items: stretch; }
+            .btn-swap { width: 100%; border-radius: 8px; margin: 10px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION SIDEBAR -->
+    <nav class="sidebar">
+        <div class="logo">CalcHub</div>
+        <button class="nav-btn active" onclick="switchTab('salary', this)">Salary Calculator</button>
+        <button class="nav-btn" onclick="switchTab('bmi', this)">BMI Calculator</button>
+        <button class="nav-btn" onclick="switchTab('converter', this)">Unit Converter</button>
+        <button class="nav-btn" onclick="switchTab('age', this)">Age Calculator</button>
+        <button class="nav-btn" onclick="switchTab('emi', this)">EMI Calculator</button>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-content">
+
+        <!-- 1. SALARY CALCULATOR -->
+        <div id="salary" class="calc-section active-section">
+            <h2>Salary Calculator</h2>
+            <p class="desc">Calculate earnings based on hourly wage.</p>
+            
+            <div class="input-group">
+                <label>Hourly Wage ($)</label>
+                <input type="number" id="s_wage" placeholder="e.g. 25">
+            </div>
+            <div class="input-group">
+                <label>Hours per Day</label>
+                <input type="number" id="s_hours" placeholder="e.g. 8">
+            </div>
+            <div class="input-group">
+                <label>Calculate for X Months (1-12)</label>
+                <input type="number" id="s_months" placeholder="e.g. 6" min="1" max="12">
+            </div>
+            <button class="btn-calc" onclick="calcSalary()">Calculate Salary</button>
+
+            <div class="result-box" id="s_result"></div>
+        </div>
+
+        <!-- 2. BMI CALCULATOR -->
+        <div id="bmi" class="calc-section">
+            <h2>BMI Calculator</h2>
+            <p class="desc">Body Mass Index calculator.</p>
+
+            <div class="input-group">
+                <label>Weight (kg)</label>
+                <input type="number" id="b_weight" placeholder="e.g. 70">
+            </div>
+            <div class="input-group">
+                <label>Height (cm)</label>
+                <input type="number" id="b_height" placeholder="e.g. 175">
+            </div>
+            <button class="btn-calc" onclick="calcBMI()">Check BMI</button>
+
+            <div class="result-box" id="b_result"></div>
+        </div>
+
+        <!-- 3. UNIVERSAL UNIT CONVERTER -->
+        <div id="converter" class="calc-section">
+            <h2>Unit Converter</h2>
+            <p class="desc">Convert Lengths (Inches, CM, Meters, Miles, etc.)</p>
+
+            <div class="input-group">
+                <label>Enter Value</label>
+                <input type="number" id="u_value" placeholder="Enter number...">
+            </div>
+
+            <div class="flex-row input-group">
+                <div class="flex-col">
+                    <label>From</label>
+                    <select id="u_from">
+                        <option value="meter">Meter (m)</option>
+                        <option value="kilometer">Kilometer (km)</option>
+                        <option value="centimeter">Centimeter (cm)</option>
+                        <option value="millimeter">Millimeter (mm)</option>
+                        <option value="micrometer">Micrometer (µm)</option>
+                        <option value="mile">Mile</option>
+                        <option value="yard">Yard</option>
+                        <option value="foot">Foot (ft)</option>
+                        <option value="inch" selected>Inch (in)</option>
+                    </select>
+                </div>
+
+                <!-- Swap Button -->
+                <button class="btn-swap" onclick="swapUnits()" title="Switch Units">⇄</button>
+
+                <div class="flex-col">
+                    <label>To</label>
+                    <select id="u_to">
+                        <option value="meter">Meter (m)</option>
+                        <option value="kilometer">Kilometer (km)</option>
+                        <option value="centimeter" selected>Centimeter (cm)</option>
+                        <option value="millimeter">Millimeter (mm)</option>
+                        <option value="micrometer">Micrometer (µm)</option>
+                        <option value="mile">Mile</option>
+                        <option value="yard">Yard</option>
+                        <option value="foot">Foot (ft)</option>
+                        <option value="inch">Inch (in)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-calc" onclick="calcConverter()">Convert</button>
+
+            <div class="result-box" id="u_result"></div>
+        </div>
+
+        <!-- 4. AGE CALCULATOR (UPDATED) -->
+        <div id="age" class="calc-section">
+            <h2>Age Calculator</h2>
+            <p class="desc">Find out your exact age and days lived.</p>
+
+            <div class="input-group">
+                <label>Date of Birth</label>
+                <input type="date" id="a_dob">
+            </div>
+            <button class="btn-calc" onclick="calcAge()">Calculate Age</button>
+
+            <div class="result-box" id="a_result"></div>
+        </div>
+
+        <!-- 5. EMI CALCULATOR -->
+        <div id="emi" class="calc-section">
+            <h2>EMI Calculator</h2>
+            <p class="desc">Calculate monthly loan payments.</p>
+
+            <div class="input-group">
+                <label>Currency</label>
+                <select id="e_currency">
+                    <option value="$">USD - Dollar ($)</option>
+                    <option value="₹">INR - Indian Rupee (₹)</option>
+                    <option value="€">EUR - Euro (€)</option>
+                    <option value="£">GBP - British Pound (£)</option>
+                    <option value="¥">JPY - Japanese Yen (¥)</option>
+                    <option value="A$">AUD - Australian Dollar (A$)</option>
+                    <option value="C$">CAD - Canadian Dollar (C$)</option>
+                    <option value="Fr">CHF - Swiss Franc (Fr)</option>
+                    <option value="¥">CNY - Chinese Yuan (¥)</option>
+                    <option value="₽">RUB - Russian Ruble (₽)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Loan Amount (Principal)</label>
+                <input type="number" id="e_amount" placeholder="e.g. 50000">
+            </div>
+            <div class="input-group">
+                <label>Interest Rate (% per year)</label>
+                <input type="number" id="e_rate" placeholder="e.g. 8.5">
+            </div>
+            <div class="input-group">
+                <label>Tenure (Months)</label>
+                <input type="number" id="e_months" placeholder="e.g. 24">
+            </div>
+            <button class="btn-calc" onclick="calcEMI()">Calculate EMI</button>
+
+            <div class="result-box" id="e_result"></div>
+        </div>
+
+    </div>
+
+    <script>
+        /* --- 1. NAVIGATION LOGIC --- */
+        function switchTab(tabId, btnElement) {
+            document.querySelectorAll('.calc-section').forEach(sec => sec.classList.remove('active-section'));
+            document.getElementById(tabId).classList.add('active-section');
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+            document.querySelectorAll('.result-box').forEach(box => box.style.display = 'none');
+        }
+
+        /* --- 2. SALARY LOGIC --- */
+        function calcSalary() {
+            const wage = parseFloat(document.getElementById('s_wage').value);
+            const hours = parseFloat(document.getElementById('s_hours').value);
+            const months = parseInt(document.getElementById('s_months').value) || 0;
+            const resBox = document.getElementById('s_result');
+
+            if (!wage || !hours) { alert("Please enter wage and hours"); return; }
+
+            const weekly = wage * hours * 5;
+            const yearly = weekly * 52;
+            const monthly = yearly / 12;
+            
+            let html = `<div>Weekly: <b>$${weekly.toFixed(2)}</b></div>
+                        <div>Monthly: <b>$${monthly.toFixed(2)}</b></div>
+                        <div>Yearly: <b>$${yearly.toFixed(2)}</b></div>`;
+            if(months > 0 && months <= 12) {
+                const specific = monthly * months;
+                html += `<div style="margin-top:10px; color:#4f46e5;">Total for ${months} months: <b>$${specific.toFixed(2)}</b></div>`;
+            }
+            resBox.innerHTML = html;
+            resBox.style.display = 'block';
+        }
+
+        /* --- 3. BMI LOGIC --- */
+        function calcBMI() {
+            const w = parseFloat(document.getElementById('b_weight').value);
+            const h = parseFloat(document.getElementById('b_height').value);
+            const resBox = document.getElementById('b_result');
+
+            if (!w || !h) { alert("Enter weight and height"); return; }
+            const bmi = w / ((h/100) ** 2);
+            let category = bmi < 18.5 ? "Underweight" : bmi < 24.9 ? "Normal Weight" : bmi < 29.9 ? "Overweight" : "Obese";
+            resBox.innerHTML = `Your BMI is: <span class="result-highlight">${bmi.toFixed(1)}</span> Status: <b>${category}</b>`;
+            resBox.style.display = 'block';
+        }
+
+        /* --- 4. UNIT CONVERTER LOGIC --- */
+        function swapUnits() {
+            const from = document.getElementById('u_from');
+            const to = document.getElementById('u_to');
+            const temp = from.value;
+            from.value = to.value;
+            to.value = temp;
+        }
+
+        function calcConverter() {
+            const val = parseFloat(document.getElementById('u_value').value);
+            const fromUnit = document.getElementById('u_from').value;
+            const toUnit = document.getElementById('u_to').value;
+            const resBox = document.getElementById('u_result');
+
+            if (isNaN(val)) { alert("Enter a valid number"); return; }
+
+            // Conversion rates relative to METER (Base Unit)
+            const rates = {
+                meter: 1,
+                kilometer: 1000,
+                centimeter: 0.01,
+                millimeter: 0.001,
+                micrometer: 0.000001,
+                mile: 1609.344,
+                yard: 0.9144,
+                foot: 0.3048,
+                inch: 0.0254
+            };
+
+            const valInMeters = val * rates[fromUnit];
+            const result = valInMeters / rates[toUnit];
+
+            let displayResult = result;
+            if (result < 0.01 && result > 0) {
+                 displayResult = result.toExponential(4);
+            } else {
+                 displayResult = result.toLocaleString('en-US', { maximumFractionDigits: 4 });
+            }
+
+            resBox.innerHTML = `${val} ${fromUnit} = <span class="result-highlight">${displayResult} ${toUnit}</span>`;
+            resBox.style.display = 'block';
+        }
+
+        /* --- 5. AGE LOGIC (UPDATED WITH DAYS LIVED) --- */
+        function calcAge() {
+            const dobInput = document.getElementById('a_dob').value;
+            const resBox = document.getElementById('a_result');
+            
+            if (!dobInput) { alert("Select your Date of Birth"); return; }
+
+            const dob = new Date(dobInput);
+            const today = new Date();
+
+            // 1. Calculate Standard Age (Years, Months, Days)
+            let years = today.getFullYear() - dob.getFullYear();
+            let months = today.getMonth() - dob.getMonth();
+            let days = today.getDate() - dob.getDate();
+
+            if (months < 0 || (months === 0 && days < 0)) { years--; months += 12; }
+            if (days < 0) { 
+                const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0); 
+                days += prevMonth.getDate(); 
+                months--; 
+            }
+
+            // 2. Calculate Total Days Lived
+            const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
+            const totalDays = Math.round(Math.abs((today - dob) / oneDay));
+
+            // Display
+            resBox.innerHTML = `
+                You are: <span class="result-highlight">${years} Years, ${months} Months, ${days} Days old</span>
+                <div style="margin-top: 15px; padding-top:15px; border-top:1px solid #e5e7eb; color: #4b5563;">
+                    Total Days Lived: <b style="color:var(--primary); font-size: 18px;">${totalDays.toLocaleString()} days</b>
+                </div>
+            `;
+            resBox.style.display = 'block';
+        }
+
+        /* --- 6. EMI LOGIC --- */
+        function calcEMI() {
+            const currency = document.getElementById('e_currency').value;
+            const P = parseFloat(document.getElementById('e_amount').value);
+            const r_annual = parseFloat(document.getElementById('e_rate').value);
+            const n = parseFloat(document.getElementById('e_months').value);
+            const resBox = document.getElementById('e_result');
+
+            if (!P || !r_annual || !n) { alert("Fill all fields"); return; }
+
+            const r = r_annual / 12 / 100; 
+            const emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            const totalPayment = emi * n;
+            const totalInterest = totalPayment - P;
+
+            const formatMoney = (amount) => {
+                return currency + " " + amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            };
+
+            resBox.innerHTML = `
+                <div>Monthly EMI: <span class="result-highlight">${formatMoney(emi)}</span></div>
+                <div style="font-size:14px; margin-top:5px; color:#555;">Total Interest: ${formatMoney(totalInterest)}</div>
+                <div style="font-size:14px; color:#555;">Total Amount: ${formatMoney(totalPayment)}</div>
+            `;
+            resBox.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
