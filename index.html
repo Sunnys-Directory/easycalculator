@@ -184,23 +184,48 @@
     <!-- MAIN CONTENT AREA -->
     <div class="main-content">
 
-        <!-- 1. SALARY CALCULATOR -->
+        <!-- 1. SALARY CALCULATOR (UPDATED) -->
         <div id="salary" class="calc-section active-section">
             <h2>Salary Calculator</h2>
-            <p class="desc">Calculate earnings based on hourly wage.</p>
+            <p class="desc">Calculate earnings based on hourly wage and weekly schedule.</p>
             
             <div class="input-group">
-                <label>Hourly Wage ($)</label>
+                <label>Currency</label>
+                <select id="s_currency">
+                    <option value="$">USD - Dollar ($)</option>
+                    <option value="₹">INR - Indian Rupee (₹)</option>
+                    <option value="€">EUR - Euro (€)</option>
+                    <option value="£">GBP - British Pound (£)</option>
+                    <option value="¥">JPY - Japanese Yen (¥)</option>
+                    <option value="₩">KRW - South Korean Won (₩)</option>
+                    <option value="A$">AUD - Australian Dollar (A$)</option>
+                    <option value="C$">CAD - Canadian Dollar (C$)</option>
+                    <option value="Fr">CHF - Swiss Franc (Fr)</option>
+                    <option value="₽">RUB - Russian Ruble (₽)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Hourly Wage</label>
                 <input type="number" id="s_wage" placeholder="e.g. 25">
             </div>
-            <div class="input-group">
-                <label>Hours per Day</label>
-                <input type="number" id="s_hours" placeholder="e.g. 8">
+            
+            <div class="flex-row input-group">
+                <div class="flex-col">
+                    <label>Hours per Day</label>
+                    <input type="number" id="s_hours" placeholder="e.g. 8">
+                </div>
+                <div class="flex-col">
+                    <label>Days per Week</label>
+                    <input type="number" id="s_daysWeek" placeholder="e.g. 5" max="7">
+                </div>
             </div>
+
             <div class="input-group">
-                <label>Calculate for X Months (1-12)</label>
+                <label>Calculate for specific Months (Optional)</label>
                 <input type="number" id="s_months" placeholder="e.g. 6" min="1" max="12">
             </div>
+
             <button class="btn-calc" onclick="calcSalary()">Calculate Salary</button>
 
             <div class="result-box" id="s_result"></div>
@@ -250,7 +275,6 @@
                     </select>
                 </div>
 
-                <!-- Swap Button -->
                 <button class="btn-swap" onclick="swapUnits()" title="Switch Units">⇄</button>
 
                 <div class="flex-col">
@@ -277,7 +301,7 @@
         <!-- 4. AGE CALCULATOR (UPDATED) -->
         <div id="age" class="calc-section">
             <h2>Age Calculator</h2>
-            <p class="desc">Find out your exact age and days lived.</p>
+            <p class="desc">Find out your exact age, days, and minutes lived.</p>
 
             <div class="input-group">
                 <label>Date of Birth</label>
@@ -338,25 +362,32 @@
             document.querySelectorAll('.result-box').forEach(box => box.style.display = 'none');
         }
 
-        /* --- 2. SALARY LOGIC --- */
+        /* --- 2. SALARY LOGIC (UPDATED) --- */
         function calcSalary() {
+            const currency = document.getElementById('s_currency').value;
             const wage = parseFloat(document.getElementById('s_wage').value);
             const hours = parseFloat(document.getElementById('s_hours').value);
+            const daysWeek = parseFloat(document.getElementById('s_daysWeek').value);
             const months = parseInt(document.getElementById('s_months').value) || 0;
             const resBox = document.getElementById('s_result');
 
-            if (!wage || !hours) { alert("Please enter wage and hours"); return; }
+            if (!wage || !hours || !daysWeek) { alert("Please enter Wage, Hours, and Days worked."); return; }
+            if (daysWeek > 7) { alert("Days per week cannot be more than 7"); return; }
 
-            const weekly = wage * hours * 5;
+            const weekly = wage * hours * daysWeek;
             const yearly = weekly * 52;
             const monthly = yearly / 12;
+
+            // Helper for currency formatting
+            const formatMoney = (val) => `${currency} ${val.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
             
-            let html = `<div>Weekly: <b>$${weekly.toFixed(2)}</b></div>
-                        <div>Monthly: <b>$${monthly.toFixed(2)}</b></div>
-                        <div>Yearly: <b>$${yearly.toFixed(2)}</b></div>`;
+            let html = `<div>Weekly: <b>${formatMoney(weekly)}</b></div>
+                        <div>Monthly: <b>${formatMoney(monthly)}</b></div>
+                        <div>Yearly: <b>${formatMoney(yearly)}</b></div>`;
+            
             if(months > 0 && months <= 12) {
                 const specific = monthly * months;
-                html += `<div style="margin-top:10px; color:#4f46e5;">Total for ${months} months: <b>$${specific.toFixed(2)}</b></div>`;
+                html += `<div style="margin-top:10px; color:#4f46e5;">Total for ${months} months: <b>${formatMoney(specific)}</b></div>`;
             }
             resBox.innerHTML = html;
             resBox.style.display = 'block';
@@ -392,34 +423,23 @@
 
             if (isNaN(val)) { alert("Enter a valid number"); return; }
 
-            // Conversion rates relative to METER (Base Unit)
             const rates = {
-                meter: 1,
-                kilometer: 1000,
-                centimeter: 0.01,
-                millimeter: 0.001,
-                micrometer: 0.000001,
-                mile: 1609.344,
-                yard: 0.9144,
-                foot: 0.3048,
-                inch: 0.0254
+                meter: 1, kilometer: 1000, centimeter: 0.01, millimeter: 0.001,
+                micrometer: 0.000001, mile: 1609.344, yard: 0.9144, foot: 0.3048, inch: 0.0254
             };
 
             const valInMeters = val * rates[fromUnit];
             const result = valInMeters / rates[toUnit];
 
             let displayResult = result;
-            if (result < 0.01 && result > 0) {
-                 displayResult = result.toExponential(4);
-            } else {
-                 displayResult = result.toLocaleString('en-US', { maximumFractionDigits: 4 });
-            }
+            if (result < 0.01 && result > 0) displayResult = result.toExponential(4);
+            else displayResult = result.toLocaleString('en-US', { maximumFractionDigits: 4 });
 
             resBox.innerHTML = `${val} ${fromUnit} = <span class="result-highlight">${displayResult} ${toUnit}</span>`;
             resBox.style.display = 'block';
         }
 
-        /* --- 5. AGE LOGIC (UPDATED WITH DAYS LIVED) --- */
+        /* --- 5. AGE LOGIC (UPDATED WITH MINUTES) --- */
         function calcAge() {
             const dobInput = document.getElementById('a_dob').value;
             const resBox = document.getElementById('a_result');
@@ -429,7 +449,7 @@
             const dob = new Date(dobInput);
             const today = new Date();
 
-            // 1. Calculate Standard Age (Years, Months, Days)
+            // 1. Standard Age
             let years = today.getFullYear() - dob.getFullYear();
             let months = today.getMonth() - dob.getMonth();
             let days = today.getDate() - dob.getDate();
@@ -441,15 +461,19 @@
                 months--; 
             }
 
-            // 2. Calculate Total Days Lived
-            const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
-            const totalDays = Math.round(Math.abs((today - dob) / oneDay));
+            // 2. Total Days and Minutes
+            const diffTime = Math.abs(today - dob);
+            const totalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
+            const totalMinutes = Math.floor(diffTime / (1000 * 60));
 
             // Display
             resBox.innerHTML = `
                 You are: <span class="result-highlight">${years} Years, ${months} Months, ${days} Days old</span>
                 <div style="margin-top: 15px; padding-top:15px; border-top:1px solid #e5e7eb; color: #4b5563;">
-                    Total Days Lived: <b style="color:var(--primary); font-size: 18px;">${totalDays.toLocaleString()} days</b>
+                    Total Days Lived: <b style="color:var(--primary);">${totalDays.toLocaleString()}</b>
+                </div>
+                <div style="margin-top: 5px; color: #4b5563;">
+                    Total Minutes Lived: <b style="color:var(--primary);">${totalMinutes.toLocaleString()}</b>
                 </div>
             `;
             resBox.style.display = 'block';
@@ -470,9 +494,7 @@
             const totalPayment = emi * n;
             const totalInterest = totalPayment - P;
 
-            const formatMoney = (amount) => {
-                return currency + " " + amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            };
+            const formatMoney = (amount) => currency + " " + amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
             resBox.innerHTML = `
                 <div>Monthly EMI: <span class="result-highlight">${formatMoney(emi)}</span></div>
