@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+   
+   <!-- Main Calculator Page -->
+   <url>
+      <!-- Note: We use the directory URL (ending in /) because index.html loads automatically -->
+      <loc>https://sunnys-directory.github.io/easycalculator/</loc>
+      <lastmod>2023-10-27</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+   </url>
+
+</urlset>
