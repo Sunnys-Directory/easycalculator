@@ -35,6 +35,7 @@
             position: fixed;
             height: 100%;
             z-index: 10;
+            overflow-y: auto; /* Allow scroll if list is long */
         }
 
         .logo {
@@ -83,7 +84,7 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 500px;
+            max-width: 600px; /* Slightly wider for new inputs */
             animation: fadeIn 0.4s ease-in-out;
         }
 
@@ -112,9 +113,10 @@
         }
         input:focus, select:focus { border-color: var(--primary); }
 
-        /* FLEX ROW for Converter and Currency */
+        /* FLEX ROW for inputs next to selects */
         .flex-row { display: flex; gap: 10px; align-items: flex-end; }
         .flex-col { flex: 1; }
+        .flex-col-small { width: 140px; flex-shrink: 0; } /* For unit dropdowns */
 
         .btn-calc {
             width: 100%;
@@ -140,10 +142,11 @@
             height: 40px;
             font-size: 18px;
             cursor: pointer;
-            margin-bottom: 5px; /* Alignment fix */
+            margin-bottom: 5px; 
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
         .btn-swap:hover { background-color: #c7d2fe; }
 
@@ -165,6 +168,7 @@
             .main-content { margin-left: 0; padding: 20px; }
             .nav-btn { font-size: 14px; padding: 10px; white-space: nowrap; margin-right: 10px; }
             .flex-row { flex-direction: column; align-items: stretch; }
+            .flex-col-small { width: 100%; }
             .btn-swap { width: 100%; border-radius: 8px; margin: 10px 0; }
         }
     </style>
@@ -176,6 +180,7 @@
         <div class="logo">CalcHub</div>
         <button class="nav-btn active" onclick="switchTab('salary', this)">Salary Calculator</button>
         <button class="nav-btn" onclick="switchTab('bmi', this)">BMI Calculator</button>
+        <button class="nav-btn" onclick="switchTab('currency', this)">Currency Converter</button>
         <button class="nav-btn" onclick="switchTab('converter', this)">Unit Converter</button>
         <button class="nav-btn" onclick="switchTab('age', this)">Age Calculator</button>
         <button class="nav-btn" onclick="switchTab('emi', this)">EMI Calculator</button>
@@ -184,13 +189,13 @@
     <!-- MAIN CONTENT AREA -->
     <div class="main-content">
 
-        <!-- 1. SALARY CALCULATOR (UPDATED) -->
+        <!-- 1. SALARY CALCULATOR -->
         <div id="salary" class="calc-section active-section">
             <h2>Salary Calculator</h2>
             <p class="desc">Calculate earnings based on hourly wage and weekly schedule.</p>
             
             <div class="input-group">
-                <label>Currency</label>
+                <label>Currency Symbol</label>
                 <select id="s_currency">
                     <option value="$">USD - Dollar ($)</option>
                     <option value="₹">INR - Indian Rupee (₹)</option>
@@ -227,26 +232,86 @@
             </div>
 
             <button class="btn-calc" onclick="calcSalary()">Calculate Salary</button>
-
             <div class="result-box" id="s_result"></div>
         </div>
 
-        <!-- 2. BMI CALCULATOR -->
+        <!-- 2. BMI CALCULATOR (UPDATED: 10+ Units) -->
         <div id="bmi" class="calc-section">
             <h2>BMI Calculator</h2>
-            <p class="desc">Body Mass Index calculator.</p>
+            <p class="desc">Body Mass Index with multi-unit support.</p>
 
             <div class="input-group">
-                <label>Weight (kg)</label>
-                <input type="number" id="b_weight" placeholder="e.g. 70">
+                <label>Weight</label>
+                <div class="flex-row">
+                    <input type="number" id="b_weight" placeholder="Value">
+                    <div class="flex-col-small">
+                        <select id="b_weight_unit">
+                            <option value="kg">Kilogram (kg)</option>
+                            <option value="lbs">Pound (lbs)</option>
+                            <option value="g">Gram (g)</option>
+                            <option value="mg">Milligram (mg)</option>
+                            <option value="oz">Ounce (oz)</option>
+                            <option value="st">Stone (st)</option>
+                            <option value="ton">Metric Ton</option>
+                            <option value="us_ton">US Ton</option>
+                            <option value="imp_ton">Imperial Ton</option>
+                            <option value="hg">Hectogram</option>
+                        </select>
+                    </div>
+                </div>
             </div>
+
             <div class="input-group">
-                <label>Height (cm)</label>
-                <input type="number" id="b_height" placeholder="e.g. 175">
+                <label>Height</label>
+                <div class="flex-row">
+                    <input type="number" id="b_height" placeholder="Value">
+                    <div class="flex-col-small">
+                        <select id="b_height_unit">
+                            <option value="cm">Centimeter (cm)</option>
+                            <option value="m">Meter (m)</option>
+                            <option value="ft">Feet (ft)</option>
+                            <option value="in">Inch (in)</option>
+                            <option value="mm">Millimeter (mm)</option>
+                            <option value="yd">Yard (yd)</option>
+                            <option value="km">Kilometer (km)</option>
+                            <option value="mi">Mile (mi)</option>
+                            <option value="dm">Decimeter</option>
+                            <option value="nm">Nanometer</option>
+                        </select>
+                    </div>
+                </div>
             </div>
+            
             <button class="btn-calc" onclick="calcBMI()">Check BMI</button>
-
             <div class="result-box" id="b_result"></div>
+        </div>
+
+        <!-- NEW: 6. CURRENCY CONVERTER (40+ Countries) -->
+        <div id="currency" class="calc-section">
+            <h2>Currency Converter</h2>
+            <p class="desc">Exchange rates (Estimated/Fixed Rates).</p>
+
+            <div class="input-group">
+                <label>Amount</label>
+                <input type="number" id="c_amount" placeholder="e.g. 100">
+            </div>
+
+            <div class="flex-row input-group">
+                <div class="flex-col">
+                    <label>From</label>
+                    <select id="c_from"></select>
+                </div>
+                
+                <button class="btn-swap" onclick="swapCurrency()" title="Swap">⇄</button>
+
+                <div class="flex-col">
+                    <label>To</label>
+                    <select id="c_to"></select>
+                </div>
+            </div>
+
+            <button class="btn-calc" onclick="calcCurrency()">Convert Currency</button>
+            <div class="result-box" id="c_result"></div>
         </div>
 
         <!-- 3. UNIVERSAL UNIT CONVERTER -->
@@ -294,11 +359,10 @@
             </div>
 
             <button class="btn-calc" onclick="calcConverter()">Convert</button>
-
             <div class="result-box" id="u_result"></div>
         </div>
 
-        <!-- 4. AGE CALCULATOR (UPDATED) -->
+        <!-- 4. AGE CALCULATOR -->
         <div id="age" class="calc-section">
             <h2>Age Calculator</h2>
             <p class="desc">Find out your exact age, days, and minutes lived.</p>
@@ -308,7 +372,6 @@
                 <input type="date" id="a_dob">
             </div>
             <button class="btn-calc" onclick="calcAge()">Calculate Age</button>
-
             <div class="result-box" id="a_result"></div>
         </div>
 
@@ -325,11 +388,6 @@
                     <option value="€">EUR - Euro (€)</option>
                     <option value="£">GBP - British Pound (£)</option>
                     <option value="¥">JPY - Japanese Yen (¥)</option>
-                    <option value="A$">AUD - Australian Dollar (A$)</option>
-                    <option value="C$">CAD - Canadian Dollar (C$)</option>
-                    <option value="Fr">CHF - Swiss Franc (Fr)</option>
-                    <option value="¥">CNY - Chinese Yuan (¥)</option>
-                    <option value="₽">RUB - Russian Ruble (₽)</option>
                 </select>
             </div>
 
@@ -346,7 +404,6 @@
                 <input type="number" id="e_months" placeholder="e.g. 24">
             </div>
             <button class="btn-calc" onclick="calcEMI()">Calculate EMI</button>
-
             <div class="result-box" id="e_result"></div>
         </div>
 
@@ -362,7 +419,7 @@
             document.querySelectorAll('.result-box').forEach(box => box.style.display = 'none');
         }
 
-        /* --- 2. SALARY LOGIC (UPDATED) --- */
+        /* --- 2. SALARY LOGIC --- */
         function calcSalary() {
             const currency = document.getElementById('s_currency').value;
             const wage = parseFloat(document.getElementById('s_wage').value);
@@ -378,7 +435,6 @@
             const yearly = weekly * 52;
             const monthly = yearly / 12;
 
-            // Helper for currency formatting
             const formatMoney = (val) => `${currency} ${val.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
             
             let html = `<div>Weekly: <b>${formatMoney(weekly)}</b></div>
@@ -393,16 +449,92 @@
             resBox.style.display = 'block';
         }
 
-        /* --- 3. BMI LOGIC --- */
+        /* --- 3. BMI LOGIC (UPDATED with UNITS) --- */
         function calcBMI() {
-            const w = parseFloat(document.getElementById('b_weight').value);
-            const h = parseFloat(document.getElementById('b_height').value);
+            let weight = parseFloat(document.getElementById('b_weight').value);
+            const weightUnit = document.getElementById('b_weight_unit').value;
+            let height = parseFloat(document.getElementById('b_height').value);
+            const heightUnit = document.getElementById('b_height_unit').value;
             const resBox = document.getElementById('b_result');
 
-            if (!w || !h) { alert("Enter weight and height"); return; }
-            const bmi = w / ((h/100) ** 2);
+            if (!weight || !height) { alert("Enter weight and height"); return; }
+
+            // 1. Convert Weight to KG
+            const weightToKg = {
+                kg: 1, g: 0.001, mg: 0.000001, hg: 0.1, ton: 1000,
+                lbs: 0.453592, oz: 0.0283495, st: 6.35029, us_ton: 907.185, imp_ton: 1016.05
+            };
+            const w_kg = weight * weightToKg[weightUnit];
+
+            // 2. Convert Height to Meters
+            const heightToM = {
+                m: 1, cm: 0.01, mm: 0.001, km: 1000, dm: 0.1, nm: 0.000000001,
+                ft: 0.3048, in: 0.0254, yd: 0.9144, mi: 1609.34
+            };
+            const h_m = height * heightToM[heightUnit];
+
+            // 3. Calc BMI
+            const bmi = w_kg / (h_m ** 2);
+            
             let category = bmi < 18.5 ? "Underweight" : bmi < 24.9 ? "Normal Weight" : bmi < 29.9 ? "Overweight" : "Obese";
-            resBox.innerHTML = `Your BMI is: <span class="result-highlight">${bmi.toFixed(1)}</span> Status: <b>${category}</b>`;
+            resBox.innerHTML = `
+                Your BMI: <span class="result-highlight">${bmi.toFixed(1)}</span>
+                Status: <b>${category}</b>
+                <div style="font-size:12px; margin-top:5px; color:#888;">(Calculated using ${w_kg.toFixed(2)} kg and ${h_m.toFixed(2)} m)</div>
+            `;
+            resBox.style.display = 'block';
+        }
+
+        /* --- NEW: CURRENCY CONVERTER LOGIC --- */
+        // Exchange rates relative to USD (1 USD = X Currency) - Static Values
+        const exchangeRates = {
+            "USD": 1, "EUR": 0.92, "GBP": 0.79, "INR": 83.50, "JPY": 150.2, "AUD": 1.52, 
+            "CAD": 1.36, "CHF": 0.90, "CNY": 7.23, "HKD": 7.82, "NZD": 1.67, "SEK": 10.85, 
+            "KRW": 1375, "SGD": 1.35, "NOK": 10.95, "MXN": 16.90, "RUB": 92.50, "ZAR": 18.90, 
+            "TRY": 32.40, "BRL": 5.15, "TWD": 32.40, "DKK": 6.90, "PLN": 3.98, "THB": 36.80, 
+            "IDR": 16100, "HUF": 365.0, "CZK": 23.50, "ILS": 3.76, "CLP": 950.0, "PHP": 57.10, 
+            "AED": 3.67, "COP": 3850, "SAR": 3.75, "MYR": 4.77, "RON": 4.60, "VND": 25450, 
+            "ARS": 870.0, "IQD": 1308, "KWD": 0.31, "NGN": 1250, "EGP": 47.90, "PKR": 278.0
+        };
+
+        // Populate Select Options
+        function populateCurrency() {
+            const selects = [document.getElementById('c_from'), document.getElementById('c_to')];
+            const keys = Object.keys(exchangeRates).sort();
+            
+            selects.forEach(sel => {
+                keys.forEach(k => {
+                    let opt = document.createElement('option');
+                    opt.value = k;
+                    opt.innerText = k;
+                    sel.appendChild(opt);
+                });
+            });
+            // Set defaults
+            document.getElementById('c_from').value = "USD";
+            document.getElementById('c_to').value = "INR";
+        }
+        populateCurrency(); // Run on load
+
+        function swapCurrency() {
+            const from = document.getElementById('c_from');
+            const to = document.getElementById('c_to');
+            [from.value, to.value] = [to.value, from.value];
+        }
+
+        function calcCurrency() {
+            const amount = parseFloat(document.getElementById('c_amount').value);
+            const from = document.getElementById('c_from').value;
+            const to = document.getElementById('c_to').value;
+            const resBox = document.getElementById('c_result');
+
+            if (isNaN(amount)) { alert("Enter amount"); return; }
+
+            // Convert to USD first, then to Target
+            const valInUSD = amount / exchangeRates[from];
+            const finalVal = valInUSD * exchangeRates[to];
+
+            resBox.innerHTML = `${amount} ${from} = <span class="result-highlight">${finalVal.toLocaleString(undefined, {maximumFractionDigits: 2})} ${to}</span>`;
             resBox.style.display = 'block';
         }
 
@@ -410,9 +542,7 @@
         function swapUnits() {
             const from = document.getElementById('u_from');
             const to = document.getElementById('u_to');
-            const temp = from.value;
-            from.value = to.value;
-            to.value = temp;
+            [from.value, to.value] = [to.value, from.value];
         }
 
         function calcConverter() {
@@ -431,15 +561,11 @@
             const valInMeters = val * rates[fromUnit];
             const result = valInMeters / rates[toUnit];
 
-            let displayResult = result;
-            if (result < 0.01 && result > 0) displayResult = result.toExponential(4);
-            else displayResult = result.toLocaleString('en-US', { maximumFractionDigits: 4 });
-
-            resBox.innerHTML = `${val} ${fromUnit} = <span class="result-highlight">${displayResult} ${toUnit}</span>`;
+            resBox.innerHTML = `${val} ${fromUnit} = <span class="result-highlight">${result.toLocaleString(undefined, {maximumFractionDigits: 4})} ${toUnit}</span>`;
             resBox.style.display = 'block';
         }
 
-        /* --- 5. AGE LOGIC (UPDATED WITH MINUTES) --- */
+        /* --- 5. AGE LOGIC --- */
         function calcAge() {
             const dobInput = document.getElementById('a_dob').value;
             const resBox = document.getElementById('a_result');
@@ -449,7 +575,6 @@
             const dob = new Date(dobInput);
             const today = new Date();
 
-            // 1. Standard Age
             let years = today.getFullYear() - dob.getFullYear();
             let months = today.getMonth() - dob.getMonth();
             let days = today.getDate() - dob.getDate();
@@ -461,20 +586,14 @@
                 months--; 
             }
 
-            // 2. Total Days and Minutes
             const diffTime = Math.abs(today - dob);
             const totalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
             const totalMinutes = Math.floor(diffTime / (1000 * 60));
 
-            // Display
             resBox.innerHTML = `
-                You are: <span class="result-highlight">${years} Years, ${months} Months, ${days} Days old</span>
-                <div style="margin-top: 15px; padding-top:15px; border-top:1px solid #e5e7eb; color: #4b5563;">
-                    Total Days Lived: <b style="color:var(--primary);">${totalDays.toLocaleString()}</b>
-                </div>
-                <div style="margin-top: 5px; color: #4b5563;">
-                    Total Minutes Lived: <b style="color:var(--primary);">${totalMinutes.toLocaleString()}</b>
-                </div>
+                Age: <span class="result-highlight">${years} Y, ${months} M, ${days} D</span>
+                <div style="margin-top: 10px; font-size:14px; color: #555;">Total Days: ${totalDays.toLocaleString()}</div>
+                <div style="font-size:14px; color: #555;">Total Minutes: ${totalMinutes.toLocaleString()}</div>
             `;
             resBox.style.display = 'block';
         }
@@ -506,3 +625,4 @@
     </script>
 </body>
 </html>
+```
