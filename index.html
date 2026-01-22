@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>All-In-One Calculator</title>
+    
+    <!-- --- SEO META TAGS --- -->
+    <title>Free Online Calculators: Salary, BMI, EMI, Age & Currency Converter</title>
+    <meta name="description" content="All-in-one free calculator tool. Calculate your Hourly Salary to Yearly income, check Body Mass Index (BMI), estimate Loan EMI, convert Currency rates, and calculate exact Age.">
+    <meta name="keywords" content="salary calculator, bmi calculator, emi calculator, age calculator, currency converter, hourly to yearly wage, loan calculator">
+    <meta name="author" content="EasyCalculator">
+    
+    <!-- PASTE YOUR GOOGLE VERIFICATION CODE BELOW -->
+    <meta name="google-site-verification" content="google2c4b771bbd3d76a9" />
+    <!-- --------------------- -->
+
     <style>
         /* --- CORE VARIABLES --- */
         :root {
@@ -89,13 +99,25 @@
             border-radius: 24px;
             box-shadow: var(--shadow);
             animation: fadeIn 0.3s ease-out;
+            margin-bottom: 30px;
         }
         .calc-section.active-section { display: block; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        h2 { margin-bottom: 5px; font-size: 22px; color: var(--text); }
+        h1 { margin-bottom: 5px; font-size: 22px; color: var(--text); } /* Changed h2 to h1 for SEO */
         p.desc { color: var(--gray); margin-bottom: 25px; font-size: 14px; }
+
+        /* SEO CONTENT BOX */
+        .seo-text {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 14px;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+        .seo-text h3 { color: var(--text); margin-bottom: 8px; font-size: 16px; }
 
         /* --- FORM ELEMENTS --- */
         .input-group { margin-bottom: 20px; }
@@ -199,7 +221,7 @@
             .main-content { padding: 15px; background: #fff; }
             .calc-section { box-shadow: none; padding: 10px; }
             
-            h2 { font-size: 24px; }
+            h1 { font-size: 24px; }
             
             /* Stack inputs vertically on mobile */
             .flex-row { flex-direction: column; gap: 15px; align-items: stretch; }
@@ -232,10 +254,10 @@
     <div class="main-content">
         <div class="container">
 
-            <!-- 1. SALARY CALCULATOR (Added Specific Months back) -->
+            <!-- 1. SALARY CALCULATOR -->
             <div id="salary" class="calc-section active-section">
-                <h2>Salary Calculator</h2>
-                <p class="desc">Calculate earnings based on hourly wage.</p>
+                <h1>Salary Calculator</h1>
+                <p class="desc">Convert hourly wage to yearly, monthly, and weekly income.</p>
                 
                 <div class="input-group">
                     <label>Currency</label>
@@ -264,7 +286,6 @@
                     </div>
                 </div>
 
-                <!-- ADDED BACK: Specific Months -->
                 <div class="input-group">
                     <label>Specific Months (Optional)</label>
                     <input type="number" id="s_months" placeholder="e.g. 6" min="1" max="12">
@@ -272,12 +293,18 @@
 
                 <button class="btn-calc" onclick="calcSalary()">Calculate Salary</button>
                 <div class="result-box" id="s_result"></div>
+
+                <!-- SEO Content Block -->
+                <div class="seo-text">
+                    <h3>How to use the Salary Calculator</h3>
+                    <p>Use this free <strong>Salary Calculator</strong> to convert your hourly wage into annual, monthly, or weekly income. Simply enter your hourly rate, hours worked per day, and days worked per week. It works for USD, INR, Euro, and more.</p>
+                </div>
             </div>
 
             <!-- 2. BMI CALCULATOR -->
             <div id="bmi" class="calc-section">
-                <h2>BMI Calculator</h2>
-                <p class="desc">Check your Body Mass Index.</p>
+                <h1>BMI Calculator</h1>
+                <p class="desc">Calculate Body Mass Index (BMI) to check healthy weight.</p>
 
                 <div class="input-group">
                     <label>Weight</label>
@@ -312,12 +339,18 @@
                 
                 <button class="btn-calc" onclick="calcBMI()">Check BMI</button>
                 <div class="result-box" id="b_result"></div>
+
+                <!-- SEO Content Block -->
+                <div class="seo-text">
+                    <h3>About BMI Calculation</h3>
+                    <p>The <strong>BMI Calculator</strong> determines if you are at a healthy weight, underweight, overweight, or obese based on height and weight. Supports conversions for Kg, Lbs, Feet, and Meters.</p>
+                </div>
             </div>
 
             <!-- 3. CURRENCY CONVERTER -->
             <div id="currency" class="calc-section">
-                <h2>Currency</h2>
-                <p class="desc">Live estimates for 40+ countries.</p>
+                <h1>Currency Converter</h1>
+                <p class="desc">Live estimates for 40+ world currencies.</p>
 
                 <div class="input-group">
                     <label>Amount</label>
@@ -340,12 +373,17 @@
 
                 <button class="btn-calc" onclick="calcCurrency()">Convert</button>
                 <div class="result-box" id="c_result"></div>
+
+                <div class="seo-text">
+                    <h3>Multi-Currency Exchange</h3>
+                    <p>Quickly convert between currencies like USD, INR, EUR, GBP, and JPY. Perfect for travel or business estimates. Note: Rates are estimated values.</p>
+                </div>
             </div>
 
             <!-- 4. UNIT CONVERTER -->
             <div id="converter" class="calc-section">
-                <h2>Unit Converter</h2>
-                <p class="desc">Length conversions.</p>
+                <h1>Unit Converter</h1>
+                <p class="desc">Convert Lengths (Meter, Inch, Mile, Foot).</p>
 
                 <div class="input-group">
                     <label>Value</label>
@@ -382,12 +420,17 @@
 
                 <button class="btn-calc" onclick="calcConverter()">Convert</button>
                 <div class="result-box" id="u_result"></div>
+                
+                <div class="seo-text">
+                    <h3>Length Conversions Made Easy</h3>
+                    <p>Use our <strong>Unit Converter</strong> for homework, construction, or daily tasks. Convert Meters to Feet, Kilometers to Miles, and Inches to Centimeters instantly.</p>
+                </div>
             </div>
 
             <!-- 5. AGE CALCULATOR -->
             <div id="age" class="calc-section">
-                <h2>Age Calculator</h2>
-                <p class="desc">Calculate exact age.</p>
+                <h1>Age Calculator</h1>
+                <p class="desc">Calculate exact age in years, days, and minutes.</p>
 
                 <div class="input-group">
                     <label>Date of Birth</label>
@@ -395,14 +438,18 @@
                 </div>
                 <button class="btn-calc" onclick="calcAge()">Calculate</button>
                 <div class="result-box" id="a_result"></div>
+
+                <div class="seo-text">
+                    <h3>Find Your Exact Age</h3>
+                    <p>The <strong>Age Calculator</strong> tells you exactly how old you are down to the minute. Find out how many total days you have lived since your Date of Birth.</p>
+                </div>
             </div>
 
-            <!-- 6. EMI CALCULATOR (Added Currency + Full Details) -->
+            <!-- 6. EMI CALCULATOR -->
             <div id="emi" class="calc-section">
-                <h2>EMI Calculator</h2>
-                <p class="desc">Loan monthly payments.</p>
+                <h1>EMI Calculator</h1>
+                <p class="desc">Calculate monthly loan payments (EMI).</p>
 
-                <!-- ADDED BACK: Currency -->
                 <div class="input-group">
                     <label>Currency</label>
                     <select id="e_currency">
@@ -430,11 +477,17 @@
                 </div>
                 <button class="btn-calc" onclick="calcEMI()">Calculate</button>
                 <div class="result-box" id="e_result"></div>
+
+                <div class="seo-text">
+                    <h3>Loan & Mortgage EMI Tool</h3>
+                    <p>Plan your finances with the <strong>EMI Calculator</strong>. Enter your principal amount, interest rate, and tenure to see your Monthly Installment and Total Interest payable.</p>
+                </div>
             </div>
 
         </div>
     </div>
 
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         /* --- 1. NAV LOGIC --- */
         function switchTab(tabId, btnElement) {
@@ -449,7 +502,7 @@
             }
         }
 
-        /* --- 2. SALARY (Updated with Months) --- */
+        /* --- 2. SALARY --- */
         function calcSalary() {
             const cur = document.getElementById('s_currency').value;
             const wage = parseFloat(document.getElementById('s_wage').value);
@@ -573,7 +626,7 @@
             document.getElementById('a_result').style.display='block';
         }
 
-        /* --- 7. EMI (Updated with Full Details) --- */
+        /* --- 7. EMI --- */
         function calcEMI() {
             const cur = document.getElementById('e_currency').value;
             const P = parseFloat(document.getElementById('e_amount').value);
@@ -597,6 +650,23 @@
             `;
             res.style.display='block';
         }
+    </script>
+    
+    <!-- JSON-LD SCHEMA FOR GOOGLE -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "EasyCalculator",
+      "url": "https://sunnys-directory.github.io/easycalculator/",
+      "description": "A free suite of online calculators for Salary, BMI, EMI, Age, and Currency conversion.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
     </script>
 </body>
 </html>
