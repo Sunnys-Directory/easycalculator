@@ -5,20 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <!-- --- SEO META TAGS --- -->
-    <title>Free Online Calculators: Salary, BMI, EMI, Age & Currency Converter</title>
-    <meta name="description" content="All-in-one free calculator tool. Calculate your Hourly Salary to Yearly income, check Body Mass Index (BMI), estimate Loan EMI, convert Currency rates, and calculate exact Age.">
-    <meta name="keywords" content="salary calculator, bmi calculator, emi calculator, age calculator, currency converter, hourly to yearly wage, loan calculator">
+    <title>CalcHub - Free Online Calculators & Converter Tools</title>
+    <meta name="description" content="Free online tools: Salary Calculator, BMI Checker, Currency Converter, Age Calculator, and EMI Loan Planner. Simple, fast, and mobile-friendly.">
+    <meta name="keywords" content="salary calculator, bmi calculator, emi calculator, age calculator, currency converter, unit converter, free online tools">
     <meta name="author" content="EasyCalculator">
-    
-    <!-- PASTE YOUR GOOGLE VERIFICATION CODE BELOW -->
     <meta name="google-site-verification" content="google2c4b771bbd3d76a9" />
-    <!-- --------------------- -->
 
     <style>
         /* --- CORE VARIABLES --- */
         :root {
             --primary: #6366f1; /* Indigo */
-            --primary-dark: #4f46e5;
             --bg: #f3f4f6;
             --white: #ffffff;
             --text: #1f2937;
@@ -31,93 +27,125 @@
         body {
             background-color: var(--bg);
             color: var(--text);
-            display: flex;
-            height: 100vh;
-            overflow: hidden; 
-        }
-
-        /* --- SIDEBAR (PC View) --- */
-        .sidebar {
-            width: 280px;
-            background-color: var(--white);
-            padding: 25px;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            height: 100%;
-            border-right: 1px solid #e5e7eb;
-            z-index: 10;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: var(--white);
+            padding: 15px 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+
+        .header-content {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 900;
             color: var(--primary);
-            margin-bottom: 30px;
-            padding-left: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            cursor: pointer;
         }
 
-        .nav-btn {
+        .back-btn {
             background: none;
             border: none;
-            text-align: left;
-            padding: 14px 20px;
-            margin-bottom: 5px;
             font-size: 16px;
             color: var(--text);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.2s;
             font-weight: 600;
-            width: 100%;
+            cursor: pointer;
+            display: none; /* Hidden on home page */
+            align-items: center;
+            gap: 5px;
         }
+        .back-btn:hover { color: var(--primary); }
 
-        .nav-btn:hover { background-color: #f3f4f6; }
-        .nav-btn.active { background-color: #e0e7ff; color: var(--primary); }
-
-        /* --- MAIN CONTENT --- */
-        .main-content {
+        /* --- MAIN WRAPPER --- */
+        .main-wrapper {
             flex: 1;
-            padding: 40px;
-            overflow-y: auto;
-            background-color: var(--bg);
+            padding: 20px;
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
         }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
+        /* --- HOME DASHBOARD (GRID) --- */
+        #home-dashboard {
+            display: block; 
+            animation: fadeIn 0.3s ease-out;
             padding-bottom: 50px;
         }
 
-        /* --- CARD STYLES --- */
-        .calc-section {
+        .dashboard-intro {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .dashboard-intro h2 { font-size: 24px; margin-bottom: 8px; }
+        .dashboard-intro p { color: var(--gray); font-size: 14px; }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .tool-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 160px;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        .tool-icon { font-size: 40px; margin-bottom: 10px; display: block; }
+        .tool-title { font-weight: 700; font-size: 16px; color: var(--text); }
+        .tool-desc { font-size: 12px; color: var(--gray); margin-top: 5px; line-height: 1.4; }
+
+        /* --- PAGES (Calculators & Text Pages) --- */
+        .page-container {
             display: none;
             background: var(--white);
-            padding: 30px;
+            padding: 25px;
             border-radius: 24px;
             box-shadow: var(--shadow);
-            animation: fadeIn 0.3s ease-out;
+            animation: slideUp 0.3s ease-out;
             margin-bottom: 30px;
         }
-        .calc-section.active-section { display: block; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        h1 { margin-bottom: 5px; font-size: 22px; color: var(--text); } /* Changed h2 to h1 for SEO */
+        h1 { margin-bottom: 5px; font-size: 22px; color: var(--text); }
+        h2 { margin-top: 20px; margin-bottom: 10px; font-size: 18px; color: var(--text); }
         p.desc { color: var(--gray); margin-bottom: 25px; font-size: 14px; }
-
-        /* SEO CONTENT BOX */
-        .seo-text {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e5e7eb;
-            font-size: 14px;
-            color: #4b5563;
-            line-height: 1.6;
-        }
-        .seo-text h3 { color: var(--text); margin-bottom: 8px; font-size: 16px; }
+        p { line-height: 1.6; margin-bottom: 15px; color: #4b5563; }
 
         /* --- FORM ELEMENTS --- */
         .input-group { margin-bottom: 20px; }
@@ -136,12 +164,10 @@
         }
         input:focus, select:focus { border-color: var(--primary); background-color: #fff; }
 
-        /* Layout Helpers */
         .flex-row { display: flex; gap: 12px; align-items: flex-end; }
         .flex-col { flex: 1; }
         .flex-col-small { width: 130px; flex-shrink: 0; } 
 
-        /* Buttons */
         .btn-calc {
             width: 100%;
             padding: 16px;
@@ -186,323 +212,423 @@
         .result-highlight { font-weight: 800; color: var(--primary); font-size: 24px; display: block; margin: 5px 0; }
         .result-detail { font-size: 14px; color: #4b5563; margin-top: 5px; display: flex; justify-content: space-between; border-bottom: 1px solid #dbeafe; padding-bottom: 5px; margin-bottom: 5px;}
         
+        /* SEO Content Box */
+        .seo-text {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 14px;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+        .seo-text h3 { color: var(--text); margin-bottom: 8px; font-size: 16px; font-weight: 700; }
+        
+        /* Footer Links */
+        .home-footer {
+            margin-top: 40px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 20px;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        .footer-link {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .footer-link:hover { color: var(--primary); }
+        .copyright { font-size: 12px; color: #9ca3af; }
+
         /* --- MOBILE OPTIMIZATION --- */
-        @media (max-width: 768px) {
-            body { flex-direction: column; height: 100vh; }
-            
-            /* Scrollable Top Bar */
-            .sidebar {
-                width: 100%;
-                height: auto;
-                flex-direction: row;
-                overflow-x: auto;
-                padding: 10px 15px;
-                border-bottom: 1px solid #e5e7eb;
-                border-right: none;
-                white-space: nowrap;
-                background: white;
-                flex-shrink: 0;
-                -ms-overflow-style: none; scrollbar-width: none;
-            }
-            .sidebar::-webkit-scrollbar { display: none; }
-
-            .logo { display: none; } 
-
-            .nav-btn {
-                width: auto;
-                margin: 0 5px;
-                padding: 8px 16px;
-                border-radius: 20px;
-                font-size: 14px;
-                background-color: #f3f4f6;
-            }
-            .nav-btn.active { background-color: var(--primary); color: white; }
-
-            .main-content { padding: 15px; background: #fff; }
-            .calc-section { box-shadow: none; padding: 10px; }
-            
-            h1 { font-size: 24px; }
-            
-            /* Stack inputs vertically on mobile */
+        @media (max-width: 600px) {
+            .grid-container { grid-template-columns: 1fr 1fr; }
+            .tool-card { height: 140px; padding: 15px; }
             .flex-row { flex-direction: column; gap: 15px; align-items: stretch; }
             .flex-col-small { width: 100%; }
-
             .btn-swap { 
                 width: 100%; height: 40px; 
                 transform: rotate(90deg); margin: -5px 0;
                 background: transparent; color: var(--primary);
             }
-            
-            input, select, .btn-calc { font-size: 18px; padding: 15px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVIGATION -->
-    <nav class="sidebar">
-        <div class="logo">⚡ CalcHub</div>
-        <button class="nav-btn active" onclick="switchTab('salary', this)">💰 Salary</button>
-        <button class="nav-btn" onclick="switchTab('bmi', this)">❤️ BMI</button>
-        <button class="nav-btn" onclick="switchTab('currency', this)">💱 Currency</button>
-        <button class="nav-btn" onclick="switchTab('converter', this)">📏 Units</button>
-        <button class="nav-btn" onclick="switchTab('age', this)">🎂 Age</button>
-        <button class="nav-btn" onclick="switchTab('emi', this)">🏦 EMI</button>
-    </nav>
-
-    <!-- MAIN CONTENT -->
-    <div class="main-content">
-        <div class="container">
-
-            <!-- 1. SALARY CALCULATOR -->
-            <div id="salary" class="calc-section active-section">
-                <h1>Salary Calculator</h1>
-                <p class="desc">Convert hourly wage to yearly, monthly, and weekly income.</p>
-                
-                <div class="input-group">
-                    <label>Currency</label>
-                    <select id="s_currency">
-                        <option value="$">USD - Dollar ($)</option>
-                        <option value="€">EUR - Euro (€)</option>
-                        <option value="₹">INR - Indian Rupee (₹)</option>
-                        <option value="£">GBP - Pound (£)</option>
-                        <option value="¥">JPY - Yen (¥)</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label>Hourly Wage</label>
-                    <input type="number" id="s_wage" placeholder="25">
-                </div>
-                
-                <div class="flex-row input-group">
-                    <div class="flex-col">
-                        <label>Hrs/Day</label>
-                        <input type="number" id="s_hours" placeholder="8">
-                    </div>
-                    <div class="flex-col">
-                        <label>Days/Week</label>
-                        <input type="number" id="s_daysWeek" placeholder="5" max="7">
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label>Specific Months (Optional)</label>
-                    <input type="number" id="s_months" placeholder="e.g. 6" min="1" max="12">
-                </div>
-
-                <button class="btn-calc" onclick="calcSalary()">Calculate Salary</button>
-                <div class="result-box" id="s_result"></div>
-
-                <!-- SEO Content Block -->
-                <div class="seo-text">
-                    <h3>How to use the Salary Calculator</h3>
-                    <p>Use this free <strong>Salary Calculator</strong> to convert your hourly wage into annual, monthly, or weekly income. Simply enter your hourly rate, hours worked per day, and days worked per week. It works for USD, INR, Euro, and more.</p>
-                </div>
-            </div>
-
-            <!-- 2. BMI CALCULATOR -->
-            <div id="bmi" class="calc-section">
-                <h1>BMI Calculator</h1>
-                <p class="desc">Calculate Body Mass Index (BMI) to check healthy weight.</p>
-
-                <div class="input-group">
-                    <label>Weight</label>
-                    <div class="flex-row">
-                        <input type="number" id="b_weight" placeholder="0">
-                        <div class="flex-col-small">
-                            <select id="b_weight_unit">
-                                <option value="kg">kg</option>
-                                <option value="lbs">lbs</option>
-                                <option value="g">grams</option>
-                                <option value="st">stone</option>
-                                <option value="oz">oz</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label>Height</label>
-                    <div class="flex-row">
-                        <input type="number" id="b_height" placeholder="0">
-                        <div class="flex-col-small">
-                            <select id="b_height_unit">
-                                <option value="cm">cm</option>
-                                <option value="m">meter</option>
-                                <option value="ft">feet</option>
-                                <option value="in">inch</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
-                <button class="btn-calc" onclick="calcBMI()">Check BMI</button>
-                <div class="result-box" id="b_result"></div>
-
-                <!-- SEO Content Block -->
-                <div class="seo-text">
-                    <h3>About BMI Calculation</h3>
-                    <p>The <strong>BMI Calculator</strong> determines if you are at a healthy weight, underweight, overweight, or obese based on height and weight. Supports conversions for Kg, Lbs, Feet, and Meters.</p>
-                </div>
-            </div>
-
-            <!-- 3. CURRENCY CONVERTER -->
-            <div id="currency" class="calc-section">
-                <h1>Currency Converter</h1>
-                <p class="desc">Live estimates for 40+ world currencies.</p>
-
-                <div class="input-group">
-                    <label>Amount</label>
-                    <input type="number" id="c_amount" placeholder="100">
-                </div>
-
-                <div class="flex-row input-group">
-                    <div class="flex-col">
-                        <label>From</label>
-                        <select id="c_from"></select>
-                    </div>
-                    
-                    <button class="btn-swap" onclick="swapCurrency()">⇄</button>
-
-                    <div class="flex-col">
-                        <label>To</label>
-                        <select id="c_to"></select>
-                    </div>
-                </div>
-
-                <button class="btn-calc" onclick="calcCurrency()">Convert</button>
-                <div class="result-box" id="c_result"></div>
-
-                <div class="seo-text">
-                    <h3>Multi-Currency Exchange</h3>
-                    <p>Quickly convert between currencies like USD, INR, EUR, GBP, and JPY. Perfect for travel or business estimates. Note: Rates are estimated values.</p>
-                </div>
-            </div>
-
-            <!-- 4. UNIT CONVERTER -->
-            <div id="converter" class="calc-section">
-                <h1>Unit Converter</h1>
-                <p class="desc">Convert Lengths (Meter, Inch, Mile, Foot).</p>
-
-                <div class="input-group">
-                    <label>Value</label>
-                    <input type="number" id="u_value" placeholder="0">
-                </div>
-
-                <div class="flex-row input-group">
-                    <div class="flex-col">
-                        <label>From</label>
-                        <select id="u_from">
-                            <option value="meter">Meter (m)</option>
-                            <option value="kilometer">Kilometer</option>
-                            <option value="centimeter">Centimeter</option>
-                            <option value="mile">Mile</option>
-                            <option value="foot">Foot</option>
-                            <option value="inch" selected>Inch</option>
-                        </select>
-                    </div>
-
-                    <button class="btn-swap" onclick="swapUnits()">⇄</button>
-
-                    <div class="flex-col">
-                        <label>To</label>
-                        <select id="u_to">
-                            <option value="meter">Meter (m)</option>
-                            <option value="kilometer">Kilometer</option>
-                            <option value="centimeter" selected>Centimeter</option>
-                            <option value="mile">Mile</option>
-                            <option value="foot">Foot</option>
-                            <option value="inch">Inch</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button class="btn-calc" onclick="calcConverter()">Convert</button>
-                <div class="result-box" id="u_result"></div>
-                
-                <div class="seo-text">
-                    <h3>Length Conversions Made Easy</h3>
-                    <p>Use our <strong>Unit Converter</strong> for homework, construction, or daily tasks. Convert Meters to Feet, Kilometers to Miles, and Inches to Centimeters instantly.</p>
-                </div>
-            </div>
-
-            <!-- 5. AGE CALCULATOR -->
-            <div id="age" class="calc-section">
-                <h1>Age Calculator</h1>
-                <p class="desc">Calculate exact age in years, days, and minutes.</p>
-
-                <div class="input-group">
-                    <label>Date of Birth</label>
-                    <input type="date" id="a_dob">
-                </div>
-                <button class="btn-calc" onclick="calcAge()">Calculate</button>
-                <div class="result-box" id="a_result"></div>
-
-                <div class="seo-text">
-                    <h3>Find Your Exact Age</h3>
-                    <p>The <strong>Age Calculator</strong> tells you exactly how old you are down to the minute. Find out how many total days you have lived since your Date of Birth.</p>
-                </div>
-            </div>
-
-            <!-- 6. EMI CALCULATOR -->
-            <div id="emi" class="calc-section">
-                <h1>EMI Calculator</h1>
-                <p class="desc">Calculate monthly loan payments (EMI).</p>
-
-                <div class="input-group">
-                    <label>Currency</label>
-                    <select id="e_currency">
-                        <option value="$">USD - Dollar ($)</option>
-                        <option value="₹">INR - Indian Rupee (₹)</option>
-                        <option value="€">EUR - Euro (€)</option>
-                        <option value="£">GBP - Pound (£)</option>
-                        <option value="¥">JPY - Yen (¥)</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label>Loan Amount</label>
-                    <input type="number" id="e_amount" placeholder="50000">
-                </div>
-                <div class="flex-row input-group">
-                    <div class="flex-col">
-                        <label>Interest %</label>
-                        <input type="number" id="e_rate" placeholder="8.5">
-                    </div>
-                    <div class="flex-col">
-                        <label>Months</label>
-                        <input type="number" id="e_months" placeholder="24">
-                    </div>
-                </div>
-                <button class="btn-calc" onclick="calcEMI()">Calculate</button>
-                <div class="result-box" id="e_result"></div>
-
-                <div class="seo-text">
-                    <h3>Loan & Mortgage EMI Tool</h3>
-                    <p>Plan your finances with the <strong>EMI Calculator</strong>. Enter your principal amount, interest rate, and tenure to see your Monthly Installment and Total Interest payable.</p>
-                </div>
-            </div>
-
+    <!-- TOP HEADER -->
+    <header>
+        <div class="header-content">
+            <div class="logo" onclick="goHome()">⚡ CalcHub</div>
+            <button class="back-btn" id="backButton" onclick="goHome()">← Back to Home</button>
         </div>
+    </header>
+
+    <div class="main-wrapper">
+        
+        <!-- --- HOME DASHBOARD PAGE --- -->
+        <div id="home-dashboard">
+            <div class="dashboard-intro">
+                <h2>Calculate Anything</h2>
+                <p>Select a tool below to get started instantly.</p>
+            </div>
+            
+            <div class="grid-container">
+                <div class="tool-card" onclick="openPage('salary')">
+                    <span class="tool-icon">💰</span>
+                    <span class="tool-title">Salary</span>
+                    <span class="tool-desc">Hourly to Yearly</span>
+                </div>
+                <div class="tool-card" onclick="openPage('bmi')">
+                    <span class="tool-icon">❤️</span>
+                    <span class="tool-title">BMI</span>
+                    <span class="tool-desc">Body Mass Index</span>
+                </div>
+                <div class="tool-card" onclick="openPage('currency')">
+                    <span class="tool-icon">💱</span>
+                    <span class="tool-title">Currency</span>
+                    <span class="tool-desc">Live Rates</span>
+                </div>
+                <div class="tool-card" onclick="openPage('converter')">
+                    <span class="tool-icon">📏</span>
+                    <span class="tool-title">Units</span>
+                    <span class="tool-desc">Length Converter</span>
+                </div>
+                <div class="tool-card" onclick="openPage('age')">
+                    <span class="tool-icon">🎂</span>
+                    <span class="tool-title">Age</span>
+                    <span class="tool-desc">Exact Age Calculator</span>
+                </div>
+                <div class="tool-card" onclick="openPage('emi')">
+                    <span class="tool-icon">🏦</span>
+                    <span class="tool-title">EMI</span>
+                    <span class="tool-desc">Loan Planner</span>
+                </div>
+            </div>
+
+            <!-- Footer Section -->
+            <div class="home-footer">
+                <div class="footer-links">
+                    <a href="#" class="footer-link" onclick="openPage('about'); return false;">About Us</a>
+                    <a href="#" class="footer-link" onclick="openPage('faq'); return false;">FAQ</a>
+                    <a href="#" class="footer-link" onclick="openPage('privacy'); return false;">Privacy Policy</a>
+                </div>
+                <p class="copyright">© 2024 CalcHub. All rights reserved.</p>
+            </div>
+        </div>
+
+        <!-- --- 1. SALARY PAGE --- -->
+        <div id="salary" class="page-container">
+            <h1>Salary Calculator</h1>
+            <p class="desc">Convert hourly wage to yearly, monthly, and weekly income.</p>
+            
+            <div class="input-group">
+                <label>Currency</label>
+                <select id="s_currency">
+                    <option value="$">USD - Dollar ($)</option>
+                    <option value="€">EUR - Euro (€)</option>
+                    <option value="₹">INR - Indian Rupee (₹)</option>
+                    <option value="£">GBP - Pound (£)</option>
+                    <option value="¥">JPY - Yen (¥)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Hourly Wage</label>
+                <input type="number" id="s_wage" placeholder="25">
+            </div>
+            <div class="flex-row input-group">
+                <div class="flex-col">
+                    <label>Hrs/Day</label>
+                    <input type="number" id="s_hours" placeholder="8">
+                </div>
+                <div class="flex-col">
+                    <label>Days/Week</label>
+                    <input type="number" id="s_daysWeek" placeholder="5" max="7">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Specific Months (Optional)</label>
+                <input type="number" id="s_months" placeholder="e.g. 6" min="1" max="12">
+            </div>
+
+            <button class="btn-calc" onclick="calcSalary()">Calculate Salary</button>
+            <div class="result-box" id="s_result"></div>
+            
+            <div class="seo-text">
+                <h3>How to use the Salary Calculator</h3>
+                <p>1. <strong>Select Currency:</strong> Choose your local currency symbol.</p>
+                <p>2. <strong>Enter Wage:</strong> Input your hourly pay rate.</p>
+                <p>3. <strong>Work Details:</strong> Enter how many hours you work per day and how many days per week.</p>
+                <p>The calculator will instantly show your gross Weekly, Monthly, and Yearly income.</p>
+            </div>
+        </div>
+
+        <!-- --- 2. BMI PAGE --- -->
+        <div id="bmi" class="page-container">
+            <h1>BMI Calculator</h1>
+            <p class="desc">Calculate Body Mass Index (BMI) to check healthy weight.</p>
+
+            <div class="input-group">
+                <label>Weight</label>
+                <div class="flex-row">
+                    <input type="number" id="b_weight" placeholder="0">
+                    <div class="flex-col-small">
+                        <select id="b_weight_unit">
+                            <option value="kg">kg</option>
+                            <option value="lbs">lbs</option>
+                            <option value="g">grams</option>
+                            <option value="st">stone</option>
+                            <option value="oz">oz</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Height</label>
+                <div class="flex-row">
+                    <input type="number" id="b_height" placeholder="0">
+                    <div class="flex-col-small">
+                        <select id="b_height_unit">
+                            <option value="cm">cm</option>
+                            <option value="m">meter</option>
+                            <option value="ft">feet</option>
+                            <option value="in">inch</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn-calc" onclick="calcBMI()">Check BMI</button>
+            <div class="result-box" id="b_result"></div>
+
+            <div class="seo-text">
+                <h3>How to use the BMI Calculator</h3>
+                <p>1. <strong>Enter Weight:</strong> Type your weight and select the unit (kg, lbs, etc.).</p>
+                <p>2. <strong>Enter Height:</strong> Type your height and select the unit (cm, feet, etc.).</p>
+                <p>3. <strong>Check Result:</strong> Click the button to see your BMI score and category (Normal, Overweight, etc.).</p>
+            </div>
+        </div>
+
+        <!-- --- 3. CURRENCY PAGE --- -->
+        <div id="currency" class="page-container">
+            <h1>Currency Converter</h1>
+            <p class="desc">Live estimates for 40+ world currencies.</p>
+
+            <div class="input-group">
+                <label>Amount</label>
+                <input type="number" id="c_amount" placeholder="100">
+            </div>
+
+            <div class="flex-row input-group">
+                <div class="flex-col">
+                    <label>From</label>
+                    <select id="c_from"></select>
+                </div>
+                <button class="btn-swap" onclick="swapCurrency()">⇄</button>
+                <div class="flex-col">
+                    <label>To</label>
+                    <select id="c_to"></select>
+                </div>
+            </div>
+
+            <button class="btn-calc" onclick="calcCurrency()">Convert</button>
+            <div class="result-box" id="c_result"></div>
+
+            <div class="seo-text">
+                <h3>How to use Currency Converter</h3>
+                <p>1. <strong>Enter Amount:</strong> Type the value you want to convert.</p>
+                <p>2. <strong>Select Currencies:</strong> Choose the source currency and the destination currency.</p>
+                <p>This tool provides estimated exchange rates for travel and general reference.</p>
+            </div>
+        </div>
+
+        <!-- --- 4. UNIT PAGE --- -->
+        <div id="converter" class="page-container">
+            <h1>Unit Converter</h1>
+            <p class="desc">Convert Lengths (Meter, Inch, Mile, Foot).</p>
+
+            <div class="input-group">
+                <label>Value</label>
+                <input type="number" id="u_value" placeholder="0">
+            </div>
+
+            <div class="flex-row input-group">
+                <div class="flex-col">
+                    <label>From</label>
+                    <select id="u_from">
+                        <option value="meter">Meter (m)</option>
+                        <option value="kilometer">Kilometer</option>
+                        <option value="centimeter">Centimeter</option>
+                        <option value="mile">Mile</option>
+                        <option value="foot">Foot</option>
+                        <option value="inch" selected>Inch</option>
+                    </select>
+                </div>
+                <button class="btn-swap" onclick="swapUnits()">⇄</button>
+                <div class="flex-col">
+                    <label>To</label>
+                    <select id="u_to">
+                        <option value="meter">Meter (m)</option>
+                        <option value="kilometer">Kilometer</option>
+                        <option value="centimeter" selected>Centimeter</option>
+                        <option value="mile">Mile</option>
+                        <option value="foot">Foot</option>
+                        <option value="inch">Inch</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-calc" onclick="calcConverter()">Convert</button>
+            <div class="result-box" id="u_result"></div>
+
+            <div class="seo-text">
+                <h3>How to use Unit Converter</h3>
+                <p>1. <strong>Input Value:</strong> Enter the length/distance number.</p>
+                <p>2. <strong>Choose Units:</strong> Select which unit you are converting from and to.</p>
+                <p>Useful for converting height (feet to meters) or distance (miles to km) instantly.</p>
+            </div>
+        </div>
+
+        <!-- --- 5. AGE PAGE --- -->
+        <div id="age" class="page-container">
+            <h1>Age Calculator</h1>
+            <p class="desc">Calculate exact age in years, days, and minutes.</p>
+
+            <div class="input-group">
+                <label>Date of Birth</label>
+                <input type="date" id="a_dob">
+            </div>
+            <button class="btn-calc" onclick="calcAge()">Calculate</button>
+            <div class="result-box" id="a_result"></div>
+
+            <div class="seo-text">
+                <h3>How to use Age Calculator</h3>
+                <p>1. <strong>Select Date:</strong> Click the calendar icon to pick your Date of Birth.</p>
+                <p>2. <strong>Calculate:</strong> Tap the button to see your exact age in years, and the total number of days you have lived.</p>
+            </div>
+        </div>
+
+        <!-- --- 6. EMI PAGE (SIMPLE INTEREST) --- -->
+        <div id="emi" class="page-container">
+            <h1>EMI Calculator (Simple Interest)</h1>
+            <p class="desc">Calculate loan payments using Flat Rate Interest.</p>
+
+            <div class="input-group">
+                <label>Currency</label>
+                <select id="e_currency">
+                    <option value="$">USD - Dollar ($)</option>
+                    <option value="₹">INR - Indian Rupee (₹)</option>
+                    <option value="€">EUR - Euro (€)</option>
+                    <option value="£">GBP - Pound (£)</option>
+                    <option value="¥">JPY - Yen (¥)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Loan Amount (Principal)</label>
+                <input type="number" id="e_amount" placeholder="e.g. 50000">
+            </div>
+            <div class="flex-row input-group">
+                <div class="flex-col">
+                    <label>Interest Rate (%)</label>
+                    <input type="number" id="e_rate" placeholder="e.g. 2">
+                </div>
+                <div class="flex-col">
+                    <label>Months</label>
+                    <input type="number" id="e_months" placeholder="e.g. 12">
+                </div>
+            </div>
+            <button class="btn-calc" onclick="calcEMI()">Calculate</button>
+            <div class="result-box" id="e_result"></div>
+
+            <div class="seo-text">
+                <h3>How it works</h3>
+                <p>This calculator uses the <strong>Simple Interest</strong> formula: <code>(Principal × Rate × Months) / 100</code>.</p>
+                <p>This is commonly used for flat-rate loans or personal lending where the interest is calculated on the full principal amount for the entire duration.</p>
+            </div>
+        </div>
+
+        <!-- --- 7. ABOUT PAGE --- -->
+        <div id="about" class="page-container">
+            <h1>About Us</h1>
+            <p class="desc">Learn more about CalcHub.</p>
+            <div class="seo-text" style="border-top: none; margin-top: 0;">
+                <p><strong>CalcHub</strong> is your one-stop destination for daily calculation needs. We believe that finding answers to simple math problems shouldn't require complex software or app installations.</p>
+                <p>Our mission is to provide fast, mobile-friendly, and accurate tools for financial planning, health tracking, and unit conversions. All our calculators run directly in your browser, ensuring privacy and speed.</p>
+            </div>
+        </div>
+
+        <!-- --- 8. FAQ PAGE --- -->
+        <div id="faq" class="page-container">
+            <h1>F.A.Q.</h1>
+            <p class="desc">Frequently Asked Questions.</p>
+            <div class="seo-text" style="border-top: none; margin-top: 0;">
+                <h3>Is this service free?</h3>
+                <p>Yes, all calculators on CalcHub are 100% free to use with no hidden charges.</p>
+                
+                <h3>Do you store my data?</h3>
+                <p>No. All calculations are performed "client-side" (right on your phone or computer). We do not save your salary, weight, or loan details.</p>
+            </div>
+        </div>
+
+        <!-- --- 9. PRIVACY PAGE --- -->
+        <div id="privacy" class="page-container">
+            <h1>Privacy Policy</h1>
+            <p class="desc">How we handle your data.</p>
+            <div class="seo-text" style="border-top: none; margin-top: 0;">
+                <p><strong>Last Updated: 2024</strong></p>
+                <h3>1. Data Collection</h3>
+                <p>We do not collect personal data such as names, email addresses, or phone numbers. The data you enter into the calculators is processed locally.</p>
+                <h3>2. Cookies</h3>
+                <p>We may use cookies to improve website performance or to serve advertisements. You can disable cookies in your browser settings.</p>
+            </div>
+        </div>
+
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        /* --- 1. NAV LOGIC --- */
-        function switchTab(tabId, btnElement) {
-            document.querySelectorAll('.calc-section').forEach(sec => sec.classList.remove('active-section'));
-            document.getElementById(tabId).classList.add('active-section');
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            btnElement.classList.add('active');
-            document.querySelectorAll('.result-box').forEach(box => box.style.display = 'none');
-            // Scroll nav on mobile
-            if(window.innerWidth < 768) {
-                btnElement.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        /* --- 1. NAVIGATION LOGIC (ROUTER) --- */
+        function openPage(pageId) {
+            document.getElementById('home-dashboard').style.display = 'none';
+            document.querySelectorAll('.page-container').forEach(page => {
+                page.style.display = 'none';
+            });
+            const activePage = document.getElementById(pageId);
+            if(activePage){
+                activePage.style.display = 'block';
+                window.location.hash = pageId;
+                document.getElementById('backButton').style.display = 'flex';
+                window.scrollTo(0,0);
             }
         }
 
-        /* --- 2. SALARY --- */
+        function goHome() {
+            document.querySelectorAll('.page-container').forEach(page => {
+                page.style.display = 'none';
+            });
+            document.getElementById('home-dashboard').style.display = 'block';
+            document.getElementById('backButton').style.display = 'none';
+            history.pushState("", document.title, window.location.pathname + window.location.search);
+            window.scrollTo(0,0);
+        }
+
+        window.onpopstate = function() {
+            const hash = window.location.hash.substring(1);
+            if(hash) { openPage(hash); } else { goHome(); }
+        };
+
+        window.onload = function() {
+            const hash = window.location.hash.substring(1);
+            if(hash && document.getElementById(hash)) { openPage(hash); } else { goHome(); }
+        };
+
+        /* --- 2. CALCULATOR FUNCTIONS --- */
+        /* SALARY */
         function calcSalary() {
             const cur = document.getElementById('s_currency').value;
             const wage = parseFloat(document.getElementById('s_wage').value);
@@ -524,19 +650,17 @@
                 <div class="result-detail"><span>Monthly:</span> <b>${fmt(monthly)}</b></div>
                 <div class="result-detail"><span>Yearly:</span> <b>${fmt(yearly)}</b></div>
             `;
-
             if(specificMonths > 0) {
                 const specTotal = monthly * specificMonths;
                 html += `<div style="margin-top:10px; padding-top:10px; border-top:1px dashed #ccc; color:var(--primary);">
                     Total for ${specificMonths} months: <br><span class="result-highlight">${fmt(specTotal)}</span>
                 </div>`;
             }
-
             res.innerHTML = html;
             res.style.display = 'block';
         }
 
-        /* --- 3. BMI --- */
+        /* BMI */
         function calcBMI() {
             let w = parseFloat(document.getElementById('b_weight').value);
             let h = parseFloat(document.getElementById('b_height').value);
@@ -559,7 +683,7 @@
             res.style.display = 'block';
         }
 
-        /* --- 4. CURRENCY --- */
+        /* CURRENCY */
         const rates = {
             "USD": 1, "EUR": 0.92, "GBP": 0.79, "INR": 83.50, "JPY": 150.2, "AUD": 1.52, 
             "CAD": 1.36, "CNY": 7.23, "KRW": 1375, "RUB": 92.50, "BRL": 5.15, "AED": 3.67,
@@ -596,7 +720,7 @@
             document.getElementById('c_result').style.display = 'block';
         }
 
-        /* --- 5. UNIT SWAP --- */
+        /* UNITS */
         function swapUnits() {
             const f = document.getElementById('u_from');
             const t = document.getElementById('u_to');
@@ -607,14 +731,13 @@
              const f = document.getElementById('u_from').value;
              const t = document.getElementById('u_to').value;
              if(!val && val !== 0) return;
-             
              const uMap = { meter:1, kilometer:1000, centimeter:0.01, mile:1609.34, foot:0.3048, inch:0.0254 };
              const res = (val * uMap[f]) / uMap[t];
              document.getElementById('u_result').innerHTML = `<span class="result-highlight">${res.toLocaleString(undefined, {maximumFractionDigits:4})}</span>`;
              document.getElementById('u_result').style.display='block';
         }
 
-        /* --- 6. AGE --- */
+        /* AGE */
         function calcAge() {
             const d = document.getElementById('a_dob').value;
             if(!d) return;
@@ -626,19 +749,23 @@
             document.getElementById('a_result').style.display='block';
         }
 
-        /* --- 7. EMI --- */
+        /* EMI (Corrected to Simple Interest Formula) */
         function calcEMI() {
             const cur = document.getElementById('e_currency').value;
             const P = parseFloat(document.getElementById('e_amount').value);
-            const r = parseFloat(document.getElementById('e_rate').value) / 12 / 100;
+            const rawRate = parseFloat(document.getElementById('e_rate').value);
             const n = parseFloat(document.getElementById('e_months').value);
             const res = document.getElementById('e_result');
 
-            if(!P || !r || !n) return alert("Please fill all fields");
+            if(!P || isNaN(rawRate) || !n) return alert("Please fill all fields");
 
-            const emi = (P * r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1);
-            const totalPay = emi * n;
-            const totalInt = totalPay - P;
+            // --- CHANGED LOGIC TO MATCH USER REQUEST: (P * Rate * Months) / 100 ---
+            // This is 'Simple Interest' where rate is treated as per month/period if not divided by 12.
+            // Formula: Interest = (Principal * Rate * Months) / 100
+            
+            const totalInt = (P * rawRate * n) / 100;
+            const totalPay = P + totalInt;
+            const emi = totalPay / n;
 
             const fmt = (v) => `${cur} ${v.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}`;
 
@@ -652,12 +779,12 @@
         }
     </script>
     
-    <!-- JSON-LD SCHEMA FOR GOOGLE -->
+    <!-- JSON-LD SCHEMA -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "EasyCalculator",
+      "name": "CalcHub",
       "url": "https://sunnys-directory.github.io/easycalculator/",
       "description": "A free suite of online calculators for Salary, BMI, EMI, Age, and Currency conversion.",
       "applicationCategory": "FinanceApplication",
