@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>{PAGE_TITLE} | EasyCalculator</title>
+  <meta name="description" content="{META_DESCRIPTION}">
+</head>
+
+<body>
+
+<h1>{H1_TITLE}</h1>
+
+<p>
+Use this <strong>{H1_TITLE}</strong> by EasyCalculator to understand currency conversion
+based on recent average exchange rates.
+</p>
+
+<label>Amount ({FROM_CURRENCY})</label>
+<input type="number" id="amount">
+
+<button onclick="convert()">Convert</button>
+<p id="result"></p>
+
+<script>
+function convert(){
+  let amount = document.getElementById("amount").value;
+  let rate = {STATIC_RATE}; // SEO-safe static rate
+  document.getElementById("result").innerText =
+    amount + " {FROM} ≈ " + (amount * rate).toFixed(2) + " {TO}";
+}
+</script>
+
+<h2>How Currency Conversion Works</h2>
+<p>
+Exchange rates fluctuate daily due to market demand, inflation,
+interest rates, and global trade.
+</p>
+
+<h2>When Should You Convert Currency?</h2>
+<p>
+Currency conversion is commonly used for travel, online shopping,
+international transfers, and education expenses.
+</p>
+
+<p>Currency tools provided by <strong>EasyCalculator</strong>.</p>
+
+</body>
+</html>
