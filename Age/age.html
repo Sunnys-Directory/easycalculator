@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>{PAGE_TITLE} | EasyCalculator</title>
+  <meta name="description" content="{META_DESCRIPTION}">
+</head>
+
+<body>
+
+<h1>{H1_TITLE}</h1>
+
+<p>
+Use this <strong>{H1_TITLE}</strong> by EasyCalculator to calculate your exact age
+in years, months, and days.
+</p>
+
+<label>Date of Birth</label>
+<input type="date" id="dob">
+
+<button onclick="calcAge()">Calculate Age</button>
+<p id="ageResult"></p>
+
+<script>
+function calcAge(){
+  let dob = new Date(document.getElementById("dob").value);
+  let diff = Date.now() - dob.getTime();
+  let age = new Date(diff).getUTCFullYear() - 1970;
+  document.getElementById("ageResult").innerText =
+    "Your age is: " + age + " years";
+}
+</script>
+
+<h2>Why Age Calculation Is Important</h2>
+<p>
+Age calculation is used for legal eligibility, education, employment,
+retirement planning, and benefits.
+</p>
+
+<p>Age tools provided by <strong>EasyCalculator</strong>.</p>
+
+</body>
+</html>
