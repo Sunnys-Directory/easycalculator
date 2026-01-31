@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>{PAGE_TITLE} | EasyCalculator</title>
+  <meta name="description" content="{META_DESCRIPTION}">
+</head>
+
+<body>
+
+<h1>{H1_TITLE}</h1>
+
+<p>
+This <strong>{H1_TITLE}</strong> by EasyCalculator helps you convert units instantly
+using accurate formulas.
+</p>
+
+<label>Enter Value</label>
+<input type="number" id="value">
+
+<button onclick="convert()">Convert</button>
+<p id="output"></p>
+
+<script>
+function convert(){
+  let v = document.getElementById("value").value;
+  let result = v * {MULTIPLIER};
+  document.getElementById("output").innerText =
+    v + " {FROM_UNIT} = " + result + " {TO_UNIT}";
+}
+</script>
+
+<h2>Why Unit Conversion Matters</h2>
+<p>
+Unit conversion is widely used in education, travel, construction,
+engineering, and daily life.
+</p>
+
+<p>Free conversion tools by <strong>EasyCalculator</strong>.</p>
+
+</body>
+</html>
