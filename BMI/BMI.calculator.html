@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>{PAGE_TITLE} | EasyCalculator</title>
+  <meta name="description" content="{META_DESCRIPTION}">
+  <meta name="robots" content="index, follow">
+</head>
+
+<body>
+
+<h1>{H1_TITLE}</h1>
+
+<p>
+Use this <strong>{H1_TITLE}</strong> by EasyCalculator to calculate your Body Mass Index
+using US standards. BMI helps estimate whether your weight is healthy for your height.
+</p>
+
+<!-- BMI CALCULATOR -->
+<label>Height (feet & inches)</label>
+<input type="number" id="feet" placeholder="Feet">
+<input type="number" id="inches" placeholder="Inches">
+
+<label>Weight (pounds)</label>
+<input type="number" id="weight">
+
+<button onclick="calcBMI()">Calculate BMI</button>
+<p id="bmiResult"></p>
+
+<script>
+function calcBMI(){
+  let feet = +document.getElementById("feet").value;
+  let inches = +document.getElementById("inches").value;
+  let weight = +document.getElementById("weight").value;
+
+  let heightInches = (feet * 12) + inches;
+  let bmi = (weight / (heightInches * heightInches)) * 703;
+
+  document.getElementById("bmiResult").innerText =
+    "Your BMI is: " + bmi.toFixed(1);
+}
+</script>
+
+<h2>What Does Your BMI Mean?</h2>
+<p>
+In the US, a BMI between 18.5 and 24.9 is considered healthy.
+Values above or below may indicate health risks.
+</p>
+
+<h2>Is BMI Accurate?</h2>
+<p>
+BMI is a screening tool and does not measure body fat directly.
+Athletes and muscular individuals may have higher BMI.
+</p>
+
+<p><strong>EasyCalculator</strong> provides free health calculators for educational use.</p>
+
+</body>
+</html>
