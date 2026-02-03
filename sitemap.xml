@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+   <sitemap>
+    <loc>https://easycalculator-534.pages.dev/salary/after tax/sitemap.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://easycalculator-534.pages.dev/salary/biweekly/sitemap.xml</loc>
+  </sitemap><sitemap>
+    <loc>https://easycalculator-534.pages.dev/salary/city/sitemap.xml</loc>
+  </sitemap><sitemap>
+    <loc>https://easycalculator-534.pages.dev/salary/company/sitemap.xml</loc>
+  </sitemap><sitemap>
+    <loc>https://easycalculator-534.pages.dev/salary/comparison/sitemap.xml</loc>
+  </sitemap><sitemap>
+    <loc>https://easycalculator-534.pages.dev/salary/experience/sitemap.xml</loc>
+  </sitemap><sitemap>
+    <loc>https://easycalculator-534.pages.dev/salary/hourly salary/sitemap.xml</loc>
+  </sitemap><sitemap>
+    <loc>https://easycalculator-534.pages.dev/salary/lifestyle/sitemap.xml</loc>
+  </sitemap><sitemap>
+    <loc>https://easycalculator-534.pages.dev/salary/salary state/sitemap.xml</loc>
+  </sitemap>
+
+  <sitemap>
+    <loc>https://easycalculator-534.pages.dev/age/sitemap.xml</loc>
+  </sitemap>
+  
+  <sitemap>
+    <loc>https://easycalculator-534.pages.dev/bmi/sitemap.xml</loc>
+  </sitemap>
+
+  <sitemap>
+    <loc>https://easycalculator-534.pages.dev/emi/sitemap.xml</loc>
+  </sitemap>
+
+  <sitemap>
+    <loc>https://easycalculator-534.pages.dev/unit/sitemap.xml</loc>
+  </sitemap>
+
+  <sitemap>
+    <loc>https://easycalculator-534.pages.dev/currency/sitemap.xml</loc>
+  </sitemap>
+
+</sitemapindex>
   <url><loc>https://sunnys-directory.github.io/easycalculator/</loc></url>
   <url><loc>https://sunnys-directory.github.io/easycalculator/1-cm-to-inches.html</loc></url>
   <url><loc>https://sunnys-directory.github.io/easycalculator/1-inches-to-cm.html</loc></url>
@@ -120,4 +163,5 @@
   <url><loc>https://sunnys-directory.github.io/easycalculator/born-in-2024-how-old-am-i.html</loc></url>
   <url><loc>https://sunnys-directory.github.io/easycalculator/google2c4b771bbd3d76a9.html</loc></url>
   <url><loc>https://sunnys-directory.github.io/easycalculator/index.html</loc></url>
+
 </urlset>
